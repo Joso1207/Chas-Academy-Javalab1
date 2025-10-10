@@ -1,4 +1,8 @@
 package org.example;
 
-public class Product {
+public class Menu {
+
+
+
+
 }
