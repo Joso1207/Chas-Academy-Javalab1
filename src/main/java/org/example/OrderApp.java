@@ -12,7 +12,7 @@ import java.util.*;
 public class OrderApp {
     public static void main(String[] args) {
 
-        List<Product> productList = new ArrayList<>();
+
         List<Order> orders;
         Map<String,List<Order>> orderHistory;
         //ProductList.PopulateFromFile?;
