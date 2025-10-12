@@ -2,7 +2,6 @@ package org.example;
 
 import org.example.Containers.Order;
 
-import java.security.PrivateKey;
 import java.util.List;
 import java.util.Map;
 
@@ -14,19 +13,43 @@ public class OrderManagement {
         this.io = io;
     }
 
+    public void placeOrder(){
+
+    }
+
+    public void listCategory(){
+
+    }
+
+    public void customerValue(){
+
+    }
+    public void top3(){
+
+    }
+
 
     public void launch(){
 
-
-        List<Order> orders;
-        Map<String,List<Order>> orderHistory;
-        //ProductList.PopulateFromFile?;
-
         while(true){
+            String selectedOption = io.getOption("1,Place Order\n" +
+                    "2,find Products in Category\n" +
+                    "3,Total Value of Customer\n" +
+                    "4,Top3 Products\n" +
+                    "5,quit",
+                    "Invalid Option");
 
+            switch (selectedOption){
 
+                case "1"->placeOrder();
+                case "2"->listCategory();
+                case "3"->customerValue();
+                case "4"->top3();
+                case "5"->{
+                    return;
+                }
 
-
+            }
 
 
             /*
