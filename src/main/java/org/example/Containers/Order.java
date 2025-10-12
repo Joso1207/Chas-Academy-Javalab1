@@ -19,6 +19,14 @@ public class Order {
     public void setCustomerName(String customerName) {this.customerName = customerName;}
     public int getId() {return id;}
 
+    public int totalCost(){
+
+        return productsInOrder.entrySet().stream()
+                .mapToInt((e)->
+                        e.getKey().getPrice()*e.getValue()).sum();
+    }
+
+
 
     @Override
     public String toString() {

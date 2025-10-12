@@ -47,4 +47,13 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }
