@@ -57,21 +57,29 @@ public class OrderManagement {
 
     public void listCategory(){
 
-
-
-        TerminalIO categoryIO = new TerminalIO(productRepository.getAllCategories());
-
-
+        Set<String>categories =productRepository.getAllCategories();
+        TerminalIO categoryIO = new TerminalIO(categories.stream().toList());
 
         productRepository.filteredListByCategory(
-                categoryIO.validMenuOption("What Category do you want","error"))
+                categoryIO.validMenuOption("Which Category?\n" +
+                        categories,"error"))
                 .forEach(System.out::println);
     }
 
     public void customerValue(){
 
+        Set<String>customers = orderRepository.getOrdersByCustomer().keySet();
+        TerminalIO customerIO = new TerminalIO(customers.stream().toList());
+
+
+        System.out.println(orderRepository.valueOfCustomer(
+                customerIO.validMenuOption("which customer" + customers,"Error")));
+
+
     }
     public void top3(){
+
+        orderRepository.top3Products().forEach(System.out::println);
 
     }
 

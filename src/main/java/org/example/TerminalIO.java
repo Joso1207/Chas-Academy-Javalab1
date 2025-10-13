@@ -38,6 +38,8 @@ public String validMenuOption(String message, String error){
             if (menuOptions.contains(line)) {
                 selectedOption = line;
                 validOption = true;
+            }else{
+                System.err.println("Not valid option");
             }
         }catch(IOException e){
 

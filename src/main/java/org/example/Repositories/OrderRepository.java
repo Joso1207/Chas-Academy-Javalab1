@@ -12,6 +12,13 @@ public class OrderRepository {
     List<Order> orders;
     Map<String,List<Order>> ordersByCustomer;
 
+
+    public Map<String, List<Order>> getOrdersByCustomer() {
+        return ordersByCustomer;
+    }
+
+
+
     public OrderRepository(){
         orders = new ArrayList<>();
         ordersByCustomer = new HashMap<>();
@@ -72,6 +79,8 @@ public class OrderRepository {
                 .sorted(Comparator.comparing(Map.Entry::getValue))
                 .limit(3).map(Map.Entry::getKey).collect(Collectors.toList());
     }
+
+
 
 
 

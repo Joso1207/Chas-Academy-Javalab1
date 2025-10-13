@@ -45,8 +45,8 @@ public class ProductRepository {
         return productList.stream().filter(p->p.getId()==id).findAny().orElse(null);
     }
 
-    public List<String> getAllCategories(){
-        return productList.stream().map(Product::getCategory).toList();
+    public Set<String> getAllCategories(){
+        return productList.stream().map(Product::getCategory).collect(Collectors.toSet());
     }
 
 
