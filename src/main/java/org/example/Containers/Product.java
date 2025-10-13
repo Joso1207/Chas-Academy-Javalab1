@@ -1,16 +1,19 @@
 package org.example.Containers;
 
 public class Product {
-    protected static int currentID = 0;
+    protected static int currentID;
     protected int id;
     protected int price;
     protected String name;
     protected String category;
 
     public Product(int price, String name, String category) {
+
+        this.id = currentID;
         this.price = price;
         this.name = name;
         this.category = category;
+        currentID++;
     }
 
 

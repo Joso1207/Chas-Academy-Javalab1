@@ -5,12 +5,33 @@ import java.util.Map;
 
 public class Order {
     int id;
+    static int currentID;
     String customerName;
 
     //Hashmap to store Product Identifier + amount of this product has been ordered,
     //We use hashmap due to it the methods Get(),Contains(),Next() all having O(1) complexity.
     //This makes it suitable for looking through large lists of products or for orders containing a specific product.
     Map<Product,Integer> productsInOrder = new LinkedHashMap<>();
+
+
+    public Order(){
+        id = currentID;
+        currentID++;
+    }
+
+    public Order(String customerName,Map<Product,Integer>products){
+        id = currentID;
+        currentID++;
+
+        setCustomerName(customerName);
+        setProductsInOrder(products);
+    }
+
+    public void addToOrder(Product product){
+        productsInOrder.merge(product,1,Integer::sum);
+    }
+
+
 
 
     public Map<Product, Integer> getProductsInOrder() {return productsInOrder;}

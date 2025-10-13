@@ -2,6 +2,7 @@ package org.example.Repositories;
 
 import org.example.Containers.Order;
 import org.example.Containers.Product;
+import org.example.OrderFactory;
 
 
 import java.util.*;
@@ -16,13 +17,13 @@ public class OrderRepository {
         ordersByCustomer = new HashMap<>();
     }
 
-    public void add(String customerName,Order newOrder){
+    public void add(Order newOrder){
         orders.add(newOrder);
 
-        if(ordersByCustomer.containsKey(customerName)){
-            ordersByCustomer.get(customerName).add(newOrder);
+        if(ordersByCustomer.containsKey(newOrder.getCustomerName())){
+            ordersByCustomer.get(newOrder.getCustomerName()).add(newOrder);
         } else {
-            ordersByCustomer.put(customerName,new ArrayList<>(Arrays.asList(newOrder)));
+            ordersByCustomer.put(newOrder.getCustomerName(),new ArrayList<>(Arrays.asList(newOrder)));
         }
 
     }
@@ -67,10 +68,11 @@ public class OrderRepository {
             o.getProductsInOrder().forEach((key,value)->
                     timesPurchased.merge(key,value, Integer::sum)));
 
-        return timesPurchased.keySet().stream()
+        return timesPurchased.entrySet().stream()
                 .sorted(Comparator.comparing(Map.Entry::getValue))
-                .limit(3).collect(Collectors.toList());
+                .limit(3).map(Map.Entry::getKey).collect(Collectors.toList());
     }
+
 
 
 
