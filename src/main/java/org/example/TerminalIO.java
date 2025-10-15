@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TerminalIO {
+private final static Logger log = LoggerFactory.getLogger(TerminalIO.class);
 
 private final BufferedReader reader;
 private final List<String> menuOptions;
@@ -20,10 +24,10 @@ public TerminalIO(){
     this.menuOptions = null;
 }
 
-public String validMenuOption(String message, String error){
+public String validMenuOption(String message, String error) throws ElementIsEmptyException {
     if(menuOptions == null|| menuOptions.isEmpty()){
-        System.err.println("No menuOptions Found");
-        return "";
+        log.error("No options included");
+        throw new ElementIsEmptyException("Menu instance contains no viable options");
     }
 
     if(!message.isBlank()){

@@ -4,17 +4,26 @@ import org.example.Containers.Order;
 import org.example.Repositories.OrderRepository;
 import org.example.Repositories.ProductRepository;
 
-import java.sql.Array;
+
 import java.util.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class OrderManagement {
 
-    private TerminalIO io;
-    private ProductRepository productRepository = new ProductRepository();
-    private OrderRepository orderRepository = new OrderRepository();
-    private OrderFactory orderFactory = new OrderFactory();
+    private final static Logger log = LoggerFactory.getLogger(OrderManagement.class);
+
+
+    private final TerminalIO io;
+    private final ProductRepository productRepository = new ProductRepository();
+    private final OrderRepository orderRepository = new OrderRepository();
+    private final OrderFactory orderFactory = new OrderFactory();
 
     private void populateOrderRepository(){
+
+        log.info("Populating repositories");
 
         List<Order> orders = new ArrayList<>();
 
@@ -30,8 +39,8 @@ public class OrderManagement {
                 Arrays.asList(1,0,3,2,5,6,6,6)
         )));
 
-        customerOrders.put("Dora",new ArrayList<>(Arrays.asList(
-                Arrays.asList(1,2,3,5,5,6,6,1)
+        customerOrders.put("Dora",new ArrayList<>(List.of(
+                Arrays.asList(1, 2, 3, 5, 5, 6, 6, 1)
 
         )));
 
@@ -39,41 +48,61 @@ public class OrderManagement {
                 orders.add(orderFactory.createOrderFromIDList(key, list, productRepository))));
 
         orders.forEach(orderRepository::add);
+
+        log.info("repositories populated");
     }
 
 
     public OrderManagement(TerminalIO io){
         this.io = io;
-
+        log.info("Program Started: using{}", io.toString());
         populateOrderRepository();
     }
 
     public void placeOrder(){
+        log.info("Starting orderCreation process");
+        try {
+            orderRepository.add(
+                    orderFactory.createNewOrderProcess(productRepository)
+            );
+        } catch (ElementIsEmptyException _) {
 
-        orderRepository.add(
-                orderFactory.createNewOrderProcess(productRepository)
-        );
+        }
+
+
     }
 
     public void listCategory(){
-
         Set<String>categories =productRepository.getAllCategories();
-        TerminalIO categoryIO = new TerminalIO(categories.stream().toList());
+        try{
+            TerminalIO categoryIO = new TerminalIO(categories.stream().toList());
 
-        productRepository.filteredListByCategory(
-                categoryIO.validMenuOption("Which Category?\n" +
-                        categories,"error"))
-                .forEach(System.out::println);
+            productRepository.filteredListByCategory(
+                            categoryIO.validMenuOption("Which Category?\n" +
+                                    categories,"error"))
+                    .forEach(System.out::println);
+
+        } catch (Exception e) {
+            log.error(e.getMessage(), productRepository);
+        }
+
+
+
+
     }
 
     public void customerValue(){
 
-        Set<String>customers = orderRepository.getOrdersByCustomer().keySet();
-        TerminalIO customerIO = new TerminalIO(customers.stream().toList());
 
+        try{
+            Set<String>customers = orderRepository.getOrdersByCustomer().keySet();
+            TerminalIO customerIO = new TerminalIO(customers.stream().toList());
+            System.out.println(orderRepository.valueOfCustomer(
+                    customerIO.validMenuOption("which customer" + customers,"Error")));
+        } catch (Exception e) {
+            log.error(e.getMessage(),orderRepository);
+        }
 
-        System.out.println(orderRepository.valueOfCustomer(
-                customerIO.validMenuOption("which customer" + customers,"Error")));
 
 
     }
@@ -87,11 +116,12 @@ public class OrderManagement {
     public void launch(){
 
         while(true){
-            String selectedOption = io.validMenuOption("1,Place Order\n" +
-                    "2,find Products in Category\n" +
-                    "3,Total Value of Customer\n" +
-                    "4,Top3 Products\n" +
-                    "5,quit",
+            String selectedOption = io.validMenuOption("""
+                            1,Place Order
+                            2,find Products in Category
+                            3,Total Value of Customer
+                            4,Top3 Products
+                            5,quit""",
                     "Invalid Option");
 
             switch (selectedOption){
@@ -101,32 +131,11 @@ public class OrderManagement {
                 case "3"->customerValue();
                 case "4"->top3();
                 case "5"->{
+                    log.info("Shutting down program");
                     return;
                 }
 
             }
-
-
-            /*
-            1, Place Order -> Send User to Collect products for their order
-            3, Order a product
-            4, Find products in category /Sort by price
-            5, Customer Value (Total value of all orders)
-            6, Most Popular Products. TOP3
-
-             */
-
-
-
-            /* OPTIONALS
-             4 -> List {
-                  SelectList
-                }
-            5, -> List Filter/Sorted {
-                SelectList->SelectOperation
-                }
-             */
-
 
         }
 

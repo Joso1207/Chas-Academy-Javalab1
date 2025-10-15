@@ -2,7 +2,7 @@ package org.example.Repositories;
 
 import org.example.Containers.Order;
 import org.example.Containers.Product;
-import org.example.OrderFactory;
+
 
 
 import java.util.*;
@@ -30,7 +30,7 @@ public class OrderRepository {
         if(ordersByCustomer.containsKey(newOrder.getCustomerName())){
             ordersByCustomer.get(newOrder.getCustomerName()).add(newOrder);
         } else {
-            ordersByCustomer.put(newOrder.getCustomerName(),new ArrayList<>(Arrays.asList(newOrder)));
+            ordersByCustomer.put(newOrder.getCustomerName(),new ArrayList<>(List.of(newOrder)));
         }
 
     }
@@ -76,7 +76,7 @@ public class OrderRepository {
                     timesPurchased.merge(key,value, Integer::sum)));
 
         return timesPurchased.entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .sorted(Map.Entry.comparingByValue())
                 .limit(3).map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
