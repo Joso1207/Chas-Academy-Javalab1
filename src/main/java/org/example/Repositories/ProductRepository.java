@@ -22,7 +22,7 @@ public class ProductRepository {
     }
 
     public ProductRepository(){
-        //populateRepository();
+        populateRepository();
     }
 
     public List<Product> getProductList() {
