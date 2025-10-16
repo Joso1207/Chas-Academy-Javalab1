@@ -52,7 +52,7 @@ public class OrderManagement {
         log.info("repositories populated");
     }
 
-
+    //Instantiate the class with a TerminalIO to serve as our input/ouput menu
     public OrderManagement(TerminalIO io){
         this.io = io;
         log.info("Program Started: using{}", io.toString());

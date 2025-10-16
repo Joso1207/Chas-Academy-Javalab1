@@ -9,6 +9,7 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//Simple order creation factory, its sole purpose is to create new and assemble filled orders.
 public class OrderFactory {
 
     private static final Logger log = LoggerFactory.getLogger(OrderFactory.class);
@@ -19,6 +20,8 @@ public class OrderFactory {
         String customerName = reader.readTextInput("Whats your name?","Error reading input");
         boolean repeat = true;
 
+        //Example of how to use our own exception, In this case ElementIsEmpty which is thrown when the program
+        //expects resources and data from another container or class but receives none.
         if(repository.getProductList().isEmpty()){
             log.error("No products to order");
             throw new ElementIsEmptyException("Repository is empty, no orders can be made");
@@ -26,13 +29,7 @@ public class OrderFactory {
 
         while(repeat){
 
-
-
-            
-                repository.getProductList().forEach(System.out::println);
-
-
-
+            repository.getProductList().forEach(System.out::println);
             int productID = reader.readNumberInput("Type the ID of the product to add, Blank entry finalizes"," Error Reading Input ");
             Product productToAdd = repository.productByID(productID);
 

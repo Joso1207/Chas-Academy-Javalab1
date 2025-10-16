@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrderRepository {
+    //All orders are contained in list, Then keep those orders grouped by the username in the MAP.
+    //Keeping it a hashmap since order is not relevant in the datastructure.
     List<Order> orders;
     Map<String,List<Order>> ordersByCustomer;
 
@@ -24,6 +26,7 @@ public class OrderRepository {
         ordersByCustomer = new HashMap<>();
     }
 
+    //Every time we add an order we place said order in both orders and ordersByCustomers
     public void add(Order newOrder){
         orders.add(newOrder);
 
@@ -68,6 +71,7 @@ public class OrderRepository {
 
     }
 
+    //Merging all the orders into a Map to represent times each product has been purchased.
     public List<Product> top3Products(){
         Map<Product,Integer> timesPurchased = new HashMap<>();
 
